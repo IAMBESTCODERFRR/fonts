@@ -848,7 +848,7 @@ do
 			AccentOutline.BackgroundColor3 = Library.Accent
 			AccentOutline.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			AccentOutline.ClipsDescendants = false
-			AccentOutline.Position = UDim2.new(0.5, -AccentOutline.Size.X.Offset / 2, 0.5, -AccentOutline.Size.Y.Offset * 2)
+			AccentOutline.Position = UDim2.new(0.5, -AccentOutline.Size.X.Offset / 2, 0.5, -AccentOutline.Size.Y.Offset)
 			AccentOutline.Size = UDim2.new(0, 550, 0, 600)
 			AccentOutline.ZIndex = 2
 			AccentOutline.Text = ""
@@ -4258,7 +4258,7 @@ do
 			-- // Dragging
 			Library:Connection(Outline.MouseButton1Down, function()
 				local Location = game:GetService("UserInputService"):GetMouseLocation()
-				Indicator.Dragging[1] = false
+				Indicator.Dragging[1] = true
 				Indicator.Dragging[2] = UDim2.new(0, Location.X - Outline.AbsolutePosition.X, 0, Location.Y - Outline.AbsolutePosition.Y)
 			end)
 			Library:Connection(game:GetService("UserInputService").InputEnded, function(Input)
