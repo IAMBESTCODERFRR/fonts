@@ -4255,33 +4255,31 @@ do
 			Accent.Size = UDim2.new(1, 0, 0, 1)
 			Accent.Parent = Outline
 			
-			-- // Dragging
-			Library:Connection(Outline.MouseButton1Down, function()
-				local Location = game:GetService("UserInputService"):GetMouseLocation()
-				Indicator.Dragging[1] = true
-				Indicator.Dragging[2] = UDim2.new(0, Location.X - Outline.AbsolutePosition.X, 0, Location.Y - Outline.AbsolutePosition.Y)
-			end)
-			Library:Connection(game:GetService("UserInputService").InputEnded, function(Input)
-				if Input.UserInputType == Enum.UserInputType.Touch and Indicator.Dragging[1] then
-					local Location = game:GetService("UserInputService"):GetMouseLocation()
-					Indicator.Dragging[1] = false
-					Indicator.Dragging[2] = UDim2.new(0, 0, 0, 0)
-				end
-			end)
-			Library:Connection(game:GetService("UserInputService").InputChanged, function(Input)
-				local Location = game:GetService("UserInputService"):GetMouseLocation()
-				local ActualLocation = nil
+-- // Dragging
+Library:Connection(Outline.MouseButton1Down, function()
+    local Location = game:GetService("UserInputService"):GetMouseLocation()
+    Indicator.Dragging[1] = true
+    Indicator.Dragging[2] = UDim2.new(0, Location.X - Outline.AbsolutePosition.X, 0, Location.Y - Outline.AbsolutePosition.Y)
+end)
 
-				-- Dragging
-				if Indicator.Dragging[1] then
-					Outline.Position = UDim2.new(
-						0,
-						Location.X - Indicator.Dragging[2].X.Offset + (Outline.Size.X.Offset * Outline.AnchorPoint.X),
-						0,
-						Location.Y - Indicator.Dragging[2].Y.Offset + (Outline.Size.Y.Offset * Outline.AnchorPoint.Y)
-					)
-				end
-			end)
+Library:Connection(game:GetService("UserInputService").InputEnded, function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+        Indicator.Dragging[1] = false
+        Indicator.Dragging[2] = UDim2.new(0, 0, 0, 0)
+    end
+end)
+
+Library:Connection(game:GetService("UserInputService").InputChanged, function(Input)
+    if Indicator.Dragging[1] and Input.UserInputType == Enum.UserInputType.MouseMovement then
+        local Location = game:GetService("UserInputService"):GetMouseLocation()
+        Outline.Position = UDim2.new(
+            0,
+            Location.X - Indicator.Dragging[2].X.Offset + (Outline.Size.X.Offset * Outline.AnchorPoint.X),
+            0,
+            Location.Y - Indicator.Dragging[2].Y.Offset + (Outline.Size.Y.Offset * Outline.AnchorPoint.Y)
+        )
+    end
+end)
 			
 			-- // Functions
 			function Indicator:NewValue(Properties)
